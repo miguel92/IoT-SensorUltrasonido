@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
+#v0.1
 if __name__ == '__main__':
     t = threading.Thread(target=main, daemon=True)
     t.start()
