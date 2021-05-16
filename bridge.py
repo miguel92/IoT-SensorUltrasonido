@@ -18,7 +18,6 @@ import random
 import ssl
 import time
 
-import jwt
 import paho.mqtt.client as mqtt
 
 import random
