@@ -12,23 +12,8 @@ dataset_id = 'ProyectoIoT'
 table_id = 'TablaProyectoIoT'
 MQTT_BRIDGE_PORT=8883
 
-import datetime
-import os
-import random
-import ssl
-import time
-
-import paho.mqtt.client as mqtt
-
-import random
-import json
-import datetime
-
 from threading import Lock
 from mqtt import *
-
-import base64
-import json
 import datetime
 from google.cloud import bigquery
 from google.oauth2 import service_account
@@ -43,10 +28,10 @@ def subscribe(client: mqtt_client, topic):
     def on_message(client, userdata, msg):
 
         topic = msg.topic
-        
+
         if "sensorDatos" in topic:
             client.mensajeQueLlega = eval(msg.payload)
-            
+
     client.subscribe(topic)
     client.on_message = on_message
 
@@ -56,7 +41,7 @@ def main():
     #Nos conectamos al cliente MQTT y a Google.
     clientshiftr = Mqtt.connect_mqtt("intercambiador")
     clientGoogle = bigquery.Client(credentials=credentials, project=PROJECT_ID)
-    
+
     #Nos suscribimos al topic
     subscribe(clientshiftr, "sensorDatos")
 
@@ -84,14 +69,14 @@ def main():
         rows = [
             {"chipID": clientshiftr.mensajeQueLlega["chipID"], "distancia": clientshiftr.mensajeQueLlega["distancia"],"tiempo": clientshiftr.mensajeQueLlega["tiempo"],"date": clientshiftr.mensajeQueLlega["date"]}  # works
         ]
-        
+
         #Se inserta la fila en la tabla.
         errors = clientGoogle.insert_rows(table, rows)
-        
+
         #Finalizamos inserción.
         if len(errors)==0:
             print("Enviado correctamente.")
-        else: 
+        else:
             print(errors)
 
         #Borramos los datos recibidos.
