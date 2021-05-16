@@ -1,6 +1,5 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session
-from iot_core import *
+from bridge import *
 import threading
 app = Flask(__name__)
 

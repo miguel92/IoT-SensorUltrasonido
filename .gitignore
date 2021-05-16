@@ -130,3 +130,4 @@ dmypy.json
 .idea/*
 rsa_private.pem
 arduinoCode
+claveBigQuery.json
