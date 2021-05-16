@@ -10,30 +10,19 @@ CA_CERTS='roots.pem'
 MQTT_BRIDGE_HOSTNAME='mqtt.googleapis.com'
 MQTT_BRIDGE_PORT=8883
 
-import datetime
-import os
-import random
 import ssl
-import time
-
 import jwt
 import paho.mqtt.client as mqtt
-
-import random
-import json
-import datetime
-
 from threading import Lock
 from mqtt import *
-import base64
 import json
 import datetime
-from google.cloud import bigquery
 
 periodo = 10
 blue = (0, 0, 255)
 yellow = (255, 255, 0)
 lock = Lock()
+
 
 def create_jwt(project_id, private_key_file, algorithm):
 
@@ -134,15 +123,15 @@ def get_client(project_id, cloud_region, registry_id, device_id, private_key_fil
     client.subscribe(mqtt_command_topic, qos=0)
 
     return client
-    
+
 def subscribe(client: mqtt_client, topic):
     def on_message(client, userdata, msg):
 
         topic = msg.topic
-        
+
         if "sensorDatos" in topic:
             client.mensajeQueLlega = eval(msg.payload)
-            
+
     client.subscribe(topic)
     client.on_message = on_message
 
@@ -157,7 +146,7 @@ def main():
     client.loop_start()
 
     client2 = Mqtt.connect_mqtt("intercambiador")
-    
+
     while True:
 
         mensaje_recibido = False
@@ -194,5 +183,3 @@ def main():
         print('Termina insercion')
         '''
 
-if __name__ == '__main__':
-    main()
