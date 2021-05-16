@@ -1,3 +1,4 @@
+import time
 from flask import Flask, render_template, request, redirect, url_for, session
 from bridge import *
 import threading
@@ -10,7 +11,11 @@ def index():
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=main, daemon=True)
+    '''
+    t = threading.Thread(target=comenzar, daemon=True)
     t.start()
+    time.sleep(2)
+    '''
     app.run(host='127.0.0.1', port=8080, debug=True)
+
 
