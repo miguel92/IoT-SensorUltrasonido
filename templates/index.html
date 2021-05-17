@@ -4,13 +4,10 @@
 <div class="row">
     <div class="col-lg-12 text-center">
         <h1>Bienvenido a App IoT</h1>
-        <p>Distancia: {{datos[0]}}</p>
-        <p>Tiempo: {{datos[1]}}</p>
-        <p>Fecha: {{datos[2]}}</p>
     </div>
 </div>
 <br/>
-<div class="jumbotron text-center mt-5">
+<div id="contenido" class="jumbotron text-center mt-5">
 
 </div>
 <br/>
@@ -19,3 +16,73 @@
 
 
 {% endblock content %}
+{% block javascript%}
+
+(function lecturasDatos() {
+  $.ajax({
+    url: '/lectura_datos',
+    success: function(data) {
+        console.log(data)
+        var obj = JSON.parse(data)
+        console.log(obj)
+        if(obj.estado){
+            var fecha = new Date(obj.datos[2].$date);
+            var html = '<p>Distancia: '+obj.datos[0]+'</p>';
+            html += '<p>Tiempo: '+obj.datos[1]+'</p>';
+            html +='<p>Última actualización: '+ formatDate(fecha) +'</p> ';
+
+            $('#contenido').html(html);
+        }else{
+            $('#contenido').html("Error");
+        }
+    },
+    complete: function() {
+
+      setTimeout(lecturasDatos, 1000);
+    }
+  });
+})();
+
+function formatDate(date){
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    let cadena = ''
+
+    if(day < 10){
+      cadena += `0${day}`
+    }else{
+      cadena += `${day}`
+    }
+    if(month < 10){
+      cadena += `-0${month}-${year} `
+    }else{
+      cadena += `-${month}-${year} `
+    }
+
+    if(hour < 10){
+        cadena += `0${hour}:`
+    }else{
+        cadena += `${hour}:`
+    }
+
+    if(minutes < 10){
+        cadena += `0${minutes}:`
+    }else{
+        cadena += `${minutes}:`
+    }
+
+    if(seconds < 10){
+        cadena += `0${seconds}`
+    }else{
+        cadena += `${seconds}`
+    }
+
+    return cadena
+};
+
+{% endblock javascript%}
