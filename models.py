@@ -1,3 +1,5 @@
+import hashlib
+
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
@@ -11,8 +13,28 @@ def get_last_registry(chip_id):
     QUERY = ('SELECT distancia, tiempo, date FROM `learned-pact-312010.ProyectoIoT.TablaProyectoIoT` WHERE chipID='+chip_id+' ORDER BY date DESC LIMIT 1')
     query_job = client.query(QUERY)  # API request
     rows = query_job.result()  # Waits for query to finish
-
+    datos = {}
     for row in rows:
         datos=row
-    
+
     return datos
+
+
+def comprobar_usuario(correo, password):
+    hashed_password = hashlib.new("sha1", password.encode())
+    QUERY = ('SELECT userName,email,chipID,rol FROM `learned-pact-312010.ProyectoIoT.users` WHERE email="' + correo + '" AND password="'+ hashed_password.hexdigest() +'" LIMIT 1')
+    query_job = client.query(QUERY)  # API request
+    rows = query_job.result()  # Waits for query to finish
+    resultado = False
+
+    for row in rows:
+        datos = row
+
+    return datos
+
+
+def get_all_users():
+    QUERY = ('SELECT userName,email,chipID FROM `learned-pact-312010.ProyectoIoT.users` WHERE rol !=0 Order by userName DESC')
+    query_job = client.query(QUERY)  # API request
+    rows = query_job.result()  # Waits for query to finish
+    return rows

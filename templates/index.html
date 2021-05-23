@@ -7,24 +7,55 @@
     </div>
 </div>
 <br/>
+<div class="row mt-4">
+    {% if session['usuario'] and session['rol'] == 0 %}
+    <div class="col-lg-12">
+        <form>
+            <div class="col-lg-6 col-sm-12 offset-lg-3">
+                <select id="select_user" class="form-select" aria-label="Default select example">
+                    <option value="0" selected>Elige un usuario</option>
+                    {% for value in datos %}
+                        <option value="{{value['chipID']}}">{{value['userName']}} con ChipID: {{value['chipID']}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+    {% elif session['usuario'] and session['rol'] == 1 %}
+        <form>
+            <input type="hidden" name="select_user" id="select_user" value="{{session['chipID']}}">
+        </form>
+    {% endif %}
+</div>
 <div id="contenido" class="jumbotron text-center mt-5">
 
 </div>
-<br/>
-<br/>
-
 
 
 {% endblock content %}
 {% block javascript%}
 
-(function lecturasDatos() {
+{% if session['usuario'] and session['rol'] == 1 %}
+    lecturasDatos();
+{% endif %}
+
+$('#select_user').change(function(){
+    lecturasDatos();
+});
+function lecturasDatos() {
+    var fd = new FormData();
+    var chipID = $('#select_user').val();
+    fd.append('chipID',chipID);
   $.ajax({
     url: '/lectura_datos',
+    type: 'post',
+    data: fd,
+    contentType: false,
+    processData: false,
     success: function(data) {
         console.log(data)
         var obj = JSON.parse(data)
-        console.log(obj)
+        console.log(data)
         if(obj.estado){
             var fecha = new Date(obj.datos[2].$date);
             var html = '<p>Distancia: '+obj.datos[0]+'</p>';
@@ -33,7 +64,7 @@
 
             $('#contenido').html(html);
         }else{
-            $('#contenido').html("Error");
+            $('#contenido').html("No hay datos.");
         }
     },
     complete: function() {
@@ -41,7 +72,7 @@
       setTimeout(lecturasDatos, 1000);
     }
   });
-})();
+}
 
 function formatDate(date){
     let day = date.getDate();
