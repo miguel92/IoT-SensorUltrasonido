@@ -52,9 +52,14 @@
                     {{session['nombre']}}
                 </span>
             </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/mapaEstadistica"><i class="fas fa-map-marked"></i> Estadísticas</a>
-          </li>             
+            {% if session['rol'] == 0 %}
+                <li class="nav-item">
+                <a class="nav-link" href="/mapaEstadistica"><i class="fas fa-home"></i> Principal</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/mapaEstadistica"><i class="fas fa-map-marked"></i> Estadísticas</a>
+              </li>
+            {% endif%}
           <li class="nav-item">
             <a class="nav-link" href="/salir"><i class="fas fa-sign-out-alt"></i> Salir</a>
           </li>         

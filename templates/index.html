@@ -51,6 +51,9 @@
 var xhr
 var chip_nuevo = 0
 var chip_antiguo = 0
+var lastCollision = 0
+var now = 0
+
 {% if session['usuario'] and session['rol'] == 1 %}
     lecturasDatos();
 {% endif %}
@@ -63,8 +66,6 @@ $('#select_user').change(function(){
         chip_antiguo = chip_nuevo;
         chip_nuevo = $(this).val();
     }
-
-
 
     lecturasDatos();
 });
@@ -85,7 +86,10 @@ function lecturasDatos() {
         if(obj.estado){
             if(chip_antiguo != chip_nuevo){
                     $('#contenido_colision').html('');
+                    now = 0;
+                    lastCollision = 0;
                 }
+            now = new Date();
             //obj.datos[0]='0';
             var fecha = new Date(obj.datos[2].$date);
             var html = '<div class="mt-1 row"><div class="col-lg-6 text-start columna_key">Distancia </div> <div class="col-lg-6 text-end columna_valor">'+obj.datos[0]+'</div>';
@@ -97,14 +101,17 @@ function lecturasDatos() {
             }else if (parseInt(obj.datos[0]) < 5){
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: red;" id="icono_alerta"></i>'
               html += '<h4 class="mt-3">¡Colisión!</h4>'
-              var fecha2 = new Date(obj.colision[4].$date);
-              var html2 = '<div class="mt-1 row"><h2 class="mt-3">Lugar del accidente</h2>';
-              html2 += '<div class="col-lg-6 text-start columna_key">Latitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[1]+'</div>';
-              html2 += '<div class="col-lg-6 text-start columna_key">Longitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[2]+'</div>';
-              html2 += '<div class="col-lg-6 text-start columna_key">Fecha accidente </div> <div class="col-lg-6 text-end columna_valor">'+formatDate(fecha)+'</div>';
-              var ruta = '{{ url_for("static", filename="colisionImages/") }}';
-              html2 += '<img class="img-fluid mt-3" src="' + ruta + obj.colision[3] +'"></div>';
-              $('#contenido_colision').html(html2);
+                if((now - lastCollision >= 3600)){
+                    lastCollision = now;
+                  var fecha2 = new Date(obj.colision[4].$date);
+                  var html2 = '<div class="mt-1 row"><h2 class="mt-3">Lugar del accidente</h2>';
+                  html2 += '<div class="col-lg-6 text-start columna_key">Latitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[1]+'</div>';
+                  html2 += '<div class="col-lg-6 text-start columna_key">Longitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[2]+'</div>';
+                  html2 += '<div class="col-lg-6 text-start columna_key">Fecha accidente </div> <div class="col-lg-6 text-end columna_valor">'+formatDate(fecha)+'</div>';
+                  var ruta = '{{ url_for("static", filename="colisionImages/") }}';
+                  html2 += '<img class="img-fluid mt-3" src="' + ruta + obj.colision[3] +'"></div>';
+                  $('#contenido_colision').html(html2);
+                }
             }else{
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: green;" id="icono_alerta"></i>'
               html += '<h4 class="mt-3">No hay peligro</h4>'
