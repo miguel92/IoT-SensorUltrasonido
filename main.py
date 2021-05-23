@@ -22,7 +22,7 @@ def index():
 
 @app.route('/lectura_datos', methods=['POST','GET'])
 def lectura_datos():
-    response = {"estado": False, "datos": None}
+    response = {"estado": False, "datos": None, "colision": None}
     datos = None
     if request.form:
         chip_id = request.form['chipID']
@@ -32,6 +32,10 @@ def lectura_datos():
         if len(datos) > 0:
             response['estado'] = True
             response['datos'] = list(datos)
+            if datos['distancia'] <5:
+                colision = colision_usuario(chip_id)
+                print(colision)
+                response['colision'] = list(colision)
     response = json.dumps(response, default=json_util.default)
     return response
 

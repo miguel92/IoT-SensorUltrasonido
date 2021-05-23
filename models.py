@@ -39,3 +39,14 @@ def get_all_users():
     query_job = client.query(QUERY)  # API request
     rows = query_job.result()  # Waits for query to finish
     return rows
+
+
+def get_colision_by_chip_id(chip_id):
+    QUERY = ('SELECT chipID, lat, lon, namePhoto, dateColision FROM `learned-pact-312010.ProyectoIoT.colisiones` WHERE chipID=' + chip_id + ' ORDER BY dateColision DESC LIMIT 1')
+    query_job = client.query(QUERY)  # API request
+    rows = query_job.result()  # Waits for query to finish
+    datos = {}
+    for row in rows:
+        datos = row
+
+    return datos

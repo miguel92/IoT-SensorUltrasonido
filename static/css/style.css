@@ -167,3 +167,18 @@ color:black;
     background:white;
     margin-right:5px;
 }
+
+#card_medidas h2{
+    color:khaki;
+}
+
+.columna_key{
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight:500;
+    color:lightgoldenrodyellow;
+}
+.columna_valor{
+    display: inline;
+    font-size: 1.3rem;
+}

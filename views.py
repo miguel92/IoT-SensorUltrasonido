@@ -28,3 +28,6 @@ def iniciar_sesion(request):
 
 def lista_usuarios():
     return get_all_users()
+
+def colision_usuario(chip_id):
+    return get_colision_by_chip_id(chip_id)
