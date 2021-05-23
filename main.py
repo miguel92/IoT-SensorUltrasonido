@@ -67,7 +67,7 @@ def salir():
 def mapa_estadistica():
     map = folium.Map(
         left='20%',
-        width=800,
+        width=760,
         height=500,
         location=[37.6000000, -4.5000000],
         zoom_start=7
