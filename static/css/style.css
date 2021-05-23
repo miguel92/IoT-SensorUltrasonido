@@ -150,3 +150,11 @@ color:black;
     left: 25px;
     top: 17px;
 }
+
+#card_medidas{
+    background-color: #474B4E;
+    color:white;
+    border-radius:10px;
+    width:570px;
+    min-height:475px;
+}

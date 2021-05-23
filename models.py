@@ -26,6 +26,7 @@ def comprobar_usuario(correo, password):
     query_job = client.query(QUERY)  # API request
     rows = query_job.result()  # Waits for query to finish
     resultado = False
+    datos = {}
 
     for row in rows:
         datos = row
