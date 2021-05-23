@@ -50,3 +50,9 @@ def get_colision_by_chip_id(chip_id):
         datos = row
 
     return datos
+
+def get_all_colisiones():
+    QUERY = ('SELECT lat, lon, COUNT(*) AS numberColision FROM `learned-pact-312010.ProyectoIoT.colisiones` GROUP BY lat, lon')
+    query_job = client.query(QUERY)  # API request
+    rows = query_job.result()  # Waits for query to finish
+    return rows

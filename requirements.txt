@@ -13,3 +13,4 @@ paho-mqtt==1.4.0
 google-cloud-bigquery
 Flask~=2.0.0
 bson~=0.5.10
+folium

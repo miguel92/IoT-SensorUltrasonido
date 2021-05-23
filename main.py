@@ -5,6 +5,7 @@ import threading
 from views import *
 import json
 from bson import json_util
+import folium
 
 app = Flask(__name__)
 app.secret_key = 'BQ2S5Idd4C'
@@ -61,6 +62,34 @@ def salir():
     session.clear()
 
     return render_template('index.html')
+
+@app.route('/mapaEstadistica') #Se liberan las variables de sesion para cerrar la sesion del cliente
+def mapa_estadistica():
+    map = folium.Map(
+        left='20%',
+        width=800,
+        height=500,
+        location=[37.6000000, -4.5000000],
+        zoom_start=7
+    )
+    rows = get_all_colisiones_views()
+
+    for row in rows:
+        lat=row[0]
+        lon=row[1]
+        lat_lng = (lat, lon)
+        numero_colisiones = row[2]
+        html = folium.Html('<div style="text-align:center"><h4>Numero de colisiones: ' + str(numero_colisiones) + '</div>', script=True)
+        folium.CircleMarker(
+                location=lat_lng,
+                radius=numero_colisiones*5,
+                popup=folium.Popup(html, max_width=300, height=500),
+                tooltip="Click aqui",
+                fill=True,
+                fill_color="crimson"
+            ).add_to(map)
+
+    return render_template('mapaEstadistica.html', map=map._repr_html_())
 
 
 if __name__ == '__main__':

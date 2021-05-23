@@ -31,3 +31,6 @@ def lista_usuarios():
 
 def colision_usuario(chip_id):
     return get_colision_by_chip_id(chip_id)
+
+def get_all_colisiones_views():
+    return get_all_colisiones()
