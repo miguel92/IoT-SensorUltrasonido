@@ -36,7 +36,7 @@
   <div id="contenido" class="jumbotron text-center mt-5">
 
   </div>
-    <div id="contenido_colision" class="jumbotron text-center mt-5">
+    <div id="contenido_colision" class="jumbotron text-center mt-3">
 
     </div>
   
@@ -48,20 +48,31 @@
 
 {% endblock content %}
 {% block javascript%}
-
-
+var xhr
+var chip_nuevo = 0
+var chip_antiguo = 0
 {% if session['usuario'] and session['rol'] == 1 %}
     lecturasDatos();
 {% endif %}
 
 $('#select_user').change(function(){
+    if(chip_antiguo == 0){
+        chip_antiguo = $(this).val();
+        chip_nuevo = chip_antiguo;
+    }else{
+        chip_antiguo = chip_nuevo;
+        chip_nuevo = $(this).val();
+    }
+
+
+
     lecturasDatos();
 });
 function lecturasDatos() {
     var fd = new FormData();
     var chipID = $('#select_user').val();
     fd.append('chipID',chipID);
-  $.ajax({
+  xhr = $.ajax({
     url: '/lectura_datos',
     type: 'post',
     data: fd,
@@ -72,6 +83,9 @@ function lecturasDatos() {
         var obj = JSON.parse(data)
         console.log(data)
         if(obj.estado){
+            if(chip_antiguo != chip_nuevo){
+                    $('#contenido_colision').html('');
+                }
             //obj.datos[0]='0';
             var fecha = new Date(obj.datos[2].$date);
             var html = '<div class="mt-1 row"><div class="col-lg-6 text-start columna_key">Distancia </div> <div class="col-lg-6 text-end columna_valor">'+obj.datos[0]+'</div>';
@@ -84,12 +98,12 @@ function lecturasDatos() {
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: red;" id="icono_alerta"></i>'
               html += '<h4 class="mt-3">¡Colisión!</h4>'
               var fecha2 = new Date(obj.colision[4].$date);
-              var html2 = '<h2 class="mt-3">Lugar del accidente</h2>';
+              var html2 = '<div class="mt-1 row"><h2 class="mt-3">Lugar del accidente</h2>';
               html2 += '<div class="col-lg-6 text-start columna_key">Latitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[1]+'</div>';
               html2 += '<div class="col-lg-6 text-start columna_key">Longitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[2]+'</div>';
               html2 += '<div class="col-lg-6 text-start columna_key">Fecha accidente </div> <div class="col-lg-6 text-end columna_valor">'+formatDate(fecha)+'</div>';
               var ruta = '{{ url_for("static", filename="colisionImages/") }}';
-              html2 += '<img class="img-fluid mt-3" src="' + ruta + obj.colision[3] +'">';
+              html2 += '<img class="img-fluid mt-3" src="' + ruta + obj.colision[3] +'"></div>';
               $('#contenido_colision').html(html2);
             }else{
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: green;" id="icono_alerta"></i>'
