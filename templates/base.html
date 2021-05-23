@@ -54,10 +54,13 @@
             </li>
             {% if session['rol'] == 0 %}
                 <li class="nav-item">
-                <a class="nav-link" href="/"><i class="fas fa-home"></i> Principal</a>
+                <a class="nav-link" href="/"><i class="fas fa-home"></i> Sensor de aproximidad</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/mapaEstadistica"><i class="fas fa-map-marked"></i> Estadísticas</a>
+                <a class="nav-link" href="/colision"><i class="fas fa-car-crash"></i> Última colisión</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/mapaEstadistica"><i class="fas fa-map-marked"></i> Mapa de colisiones</a>
               </li>
             {% endif%}
           <li class="nav-item">
