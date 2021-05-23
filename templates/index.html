@@ -7,17 +7,38 @@
     </div>
 </div>
 <br/>
-<div id="contenido" class="jumbotron text-center mt-5">
+<div class="card">
+  <p class="card__name">Sensor de proximidad</p>
+  <div id="contenido" class="jumbotron text-center mt-5">
+    <embed src="https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3" autostart="true" 
+    width="0" height="0" id="sound1" enablejavascript="true">
+    <button id="button" onclick="play()" hidden="true"></button>
+  </div>
+
+  
+</div>
+
 
 </div>
 <br/>
 <br/>
 
+<script>
+  function play() {
+      var audio = new Audio(
+'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+      audio.play();
+  }
+</script>
 
 
 {% endblock content %}
 {% block javascript%}
-
+function play() {
+  var audio = new Audio(
+'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+  audio.play();
+}
 (function lecturasDatos() {
   $.ajax({
     url: '/lectura_datos',
@@ -26,11 +47,26 @@
         var obj = JSON.parse(data)
         console.log(obj)
         if(obj.estado){
+            //obj.datos[0]='0';
             var fecha = new Date(obj.datos[2].$date);
-            var html = '<p>Distancia: '+obj.datos[0]+'</p>';
-            html += '<p>Tiempo: '+obj.datos[1]+'</p>';
+            var html = '<h4>Distancia: '+obj.datos[0]+'</h4>';
+            html += '<h4>Tiempo: '+obj.datos[1]+'</h4>';
             html +='<p>Última actualización: '+ formatDate(fecha) +'</p> ';
+            html += '<br>'
+            html += '<br>'
+            if (parseInt(obj.datos[0]) < 3){
 
+              $('#button').trigger("click");   
+              html += '<i class="fas fa-circle fa-10x" style="color: red;" id="icono_alerta"></i>'
+              html += '<br>'
+              html += '<br>'
+              html += '<h4>¡Cuidado, coche cerca!</h4>'
+            }else{
+              html += '<i class="fas fa-circle fa-10x" style="color: green;" id="icono_alerta"></i>'
+              html += '<br>'
+              html += '<br>'
+              html += '<h4>No hay peligro</h4>'
+            }
             $('#contenido').html(html);
         }else{
             $('#contenido').html("Error");
