@@ -31,7 +31,10 @@
         <li class="nav-item">
             <a class="nav-link active" style="color:white;" href="/"> <img src="{{ url_for('static', filename='icons/iot-icon.png') }}" style="margin-right:6px;width:28px;"> <b>App IoT</b></a>
         </li>
-          {% if not session['usuario'] %}
+
+      </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
+             {% if not session['usuario'] %}
           <li class="nav-item">
             <a class="nav-link" href="/iniciarSesion"><i class="fas fa-user-plus"></i> Iniciar Sesi&oacute;n</a>
           </li>
@@ -39,11 +42,21 @@
             <a class="nav-link" href="/registrar"><i class="fas fa-sign-in-alt"></i> Registrarse</a>
           </li>-->
           {% else %}
+            <li class="nav-item">
+                <span class="nav-link" style="color:white;font-weight:bold;">
+                    {% if session['rol'] == 0 %}
+                        <img class="img-user" src="{{ url_for('static', filename='icons/admin_icon.png') }}">
+                    {% else %}
+                        <img class="img-user" src="{{ url_for('static', filename='icons/coche_icon.png') }}">
+                    {% endif%}
+                    {{session['nombre']}}
+                </span>
+            </li>
           <li class="nav-item">
             <a class="nav-link" href="/salir"><i class="fas fa-sign-out-alt"></i> Salir</a>
           </li>
           {% endif %}
-      </ul>
+        </ul>
     </div>
   </div>
 </nav>

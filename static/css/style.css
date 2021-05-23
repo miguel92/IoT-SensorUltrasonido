@@ -158,3 +158,12 @@ color:black;
     width:570px;
     min-height:475px;
 }
+
+.img-user{
+    width:25px;
+    height:25px;
+    border-radius:15px;
+    border:1px solid grey;
+    background:white;
+    margin-right:5px;
+}
