@@ -33,10 +33,7 @@ def lectura_datos():
         if len(datos) > 0:
             response['estado'] = True
             response['datos'] = list(datos)
-            if datos['distancia'] <5:
-                colision = colision_usuario(chip_id)
-                print(colision)
-                response['colision'] = list(colision)
+
     response = json.dumps(response, default=json_util.default)
     return response
 
@@ -90,6 +87,16 @@ def mapa_estadistica():
             ).add_to(map)
 
     return render_template('mapaEstadistica.html', map=map._repr_html_())
+
+
+@app.route('/colisiones')
+def colisiones():
+    colisiones = {}
+
+    if session['rol'] == 1:
+        colisiones = colisiones_usuario(str(session['chipID']))
+
+    return render_template('colision.html', datos=colisiones)
 
 
 if __name__ == '__main__':

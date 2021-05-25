@@ -36,9 +36,6 @@
   <div id="contenido" class="jumbotron text-center mt-5">
 
   </div>
-    <div id="contenido_colision" class="jumbotron text-center mt-3">
-
-    </div>
   
 </div>
 
@@ -103,21 +100,6 @@ function lecturasDatos() {
             }else if (parseInt(obj.datos[0]) < 5){
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: red;" id="icono_alerta"></i>'
               html += '<h4 class="mt-3">¡Colisión!</h4>'
-                if((now - lastCollision >= 3600000)){
-                    lastCollision = now;
-                    var fecha2 = new Date(obj.colision[4].$date);
-                    var html2 = '<div class="mt-1 row"><h2 class="mt-3">Lugar del accidente</h2>';
-                    html2 += '<div class="col-lg-6 text-start columna_key">Latitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[1]+'</div>';
-                    html2 += '<div class="col-lg-6 text-start columna_key">Longitud </div> <div class="col-lg-6 text-end columna_valor">'+obj.colision[2]+'</div>';
-                    html2 += '<div class="col-lg-6 text-start columna_key">Fecha accidente </div> <div class="col-lg-6 text-end columna_valor">'+formatDate(fecha)+'</div>';
-                    html2 += '<h4 class="mt-3">Mapa con posición</h4>';
-                    var mapSite = 'https://www.openstreetmap.org/export/embed.html?bbox='+obj.colision[2]+'%2C'+obj.colision[1]+'%2C'+obj.colision[2]+'%2C'+obj.colision[1]+'&amp;layer=mapnik&amp;marker='+obj.colision[1]+'%2C'+obj.colision[2];
-                    html2 += '<iframe width="425" height="350" frameborder="0" scrolling="no"  arginheight="0" marginwidth="0" src="'+mapSite+'"></iframe>';
-                    var ruta = '{{ url_for("static", filename="colisionImages/") }}';
-                    html2 += '<h4 class="mt-3">Imagen de la colisión</h4>';
-                    html2 += '<img class="img-fluid mt-3" src="' + ruta + obj.colision[3] +'"></div>';
-                    $('#contenido_colision').html(html2);
-                }
             }else{
               html += '<i class="fas fa-circle fa-10x mt-3" style="color: green;" id="icono_alerta"></i>'
               html += '<h4 class="mt-3">No hay peligro</h4>'

@@ -158,6 +158,13 @@ color:black;
     width:570px;
     min-height:475px;
 }
+.card_medidas{
+    background-color: #474B4E;
+    color:white;
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
 
 .img-user{
     width:25px;

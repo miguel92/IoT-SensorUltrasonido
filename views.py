@@ -29,8 +29,18 @@ def iniciar_sesion(request):
 def lista_usuarios():
     return get_all_users()
 
+
 def colision_usuario(chip_id):
     return get_colision_by_chip_id(chip_id)
 
+
 def get_all_colisiones_views():
     return get_all_colisiones()
+
+
+def colisiones_usuario(chip_id):
+    return get_colisions_by_chip_id(chip_id)
+
+def todas_colisiones_usuarios():
+    return get_all_users_collisions()
+
