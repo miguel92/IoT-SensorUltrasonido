@@ -91,12 +91,30 @@ def mapa_estadistica():
 
 @app.route('/colisiones')
 def colisiones():
-    colisiones = {}
+    datos = {}
 
     if session['rol'] == 1:
-        colisiones = colisiones_usuario(str(session['chipID']))
+        datos = colisiones_usuario(str(session['chipID']))
+    else:
+        datos = lista_usuarios()
 
-    return render_template('colision.html', datos=colisiones)
+    return render_template('colision.html', datos=datos)
+
+
+@app.route('/lectura_colisiones', methods=['POST','GET'])
+def lectura_colisiones():
+    response = {"estado": False, "datos": None}
+    datos = []
+    if request.form:
+        chip_id = request.form['chipID']
+        rows = colisiones_usuario(str(chip_id))
+        for row in rows:
+            datos.append(list(row))
+        response['estado'] = True
+        response['datos'] = datos
+
+    response = json.dumps(response, default=json_util.default)
+    return response
 
 
 if __name__ == '__main__':

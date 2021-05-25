@@ -56,14 +56,6 @@ var now = 0
 {% endif %}
 
 $('#select_user').change(function(){
-    if(chip_antiguo == 0){
-        chip_antiguo = $(this).val();
-        chip_nuevo = chip_antiguo;
-    }else{
-        chip_antiguo = chip_nuevo;
-        chip_nuevo = $(this).val();
-    }
-
     lecturasDatos();
 });
 function lecturasDatos() {
@@ -81,15 +73,6 @@ function lecturasDatos() {
         var obj = JSON.parse(data)
         console.log(data)
         if(obj.estado){
-            console.log(chip_antiguo);
-            console.log(chip_nuevo);
-            if(chip_antiguo != chip_nuevo){
-                $('#contenido_colision').html('');
-                now = 0;
-                lastCollision=0;
-            }
-            now = new Date();
-            //obj.datos[0]='0';
             var fecha = new Date(obj.datos[2].$date);
             var html = '<div class="mt-1 row"><div class="col-lg-6 text-start columna_key">Distancia </div> <div class="col-lg-6 text-end columna_valor">'+obj.datos[0]+' metros</div>';
             html += '<div class="col-lg-6 text-start columna_key">Tiempo </div> <div class="col-lg-6 text-end columna_valor">'+obj.datos[1]+' ms</div>';

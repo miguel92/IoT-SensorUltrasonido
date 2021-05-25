@@ -41,6 +41,4 @@ def get_all_colisiones_views():
 def colisiones_usuario(chip_id):
     return get_colisions_by_chip_id(chip_id)
 
-def todas_colisiones_usuarios():
-    return get_all_users_collisions()
 
