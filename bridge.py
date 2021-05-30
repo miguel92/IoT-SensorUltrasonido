@@ -81,7 +81,7 @@ def comenzar():
         table_ref = clientGoogle.dataset(dataset_id).table(table_id)
         table = clientGoogle.get_table(table_ref)
 
-         #Obtenemos la tabla de bigQuery
+        #Obtenemos la tabla de bigQuery
         table_colision_ref = clientGoogle.dataset(dataset_id).table(table_colision_id)
         table_colision = clientGoogle.get_table(table_colision_ref)
 
@@ -129,3 +129,6 @@ def comenzar():
 
         #Borramos los datos recibidos.
         delattr(clientshiftr, "mensajeQueLlega")
+
+if __name__ == '__main__':
+    comenzar()
