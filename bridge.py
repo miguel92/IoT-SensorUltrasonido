@@ -51,7 +51,7 @@ def subscribe(client: mqtt_client, topic):
     client.subscribe(topic)
     client.on_message = on_message
 
-def main():
+def comenzar():
     mqtt_topic = '/devices/{}/events'.format(DEVICE_ID)
 
     #Nos conectamos al cliente MQTT y a Google.
@@ -129,6 +129,3 @@ def main():
 
         #Borramos los datos recibidos.
         delattr(clientshiftr, "mensajeQueLlega")
-
-if __name__ == '__main__':
-    main()

@@ -69,9 +69,7 @@ function lecturasDatos() {
     contentType: false,
     processData: false,
     success: function(data) {
-        console.log(data)
         var obj = JSON.parse(data)
-        console.log(data)
         if(obj.estado){
             var fecha = new Date(obj.datos[2].$date);
             var html = '<div class="mt-1 row"><div class="col-lg-6 text-start columna_key">Distancia </div> <div class="col-lg-6 text-end columna_valor">'+obj.datos[0]+' cm</div>';
@@ -103,7 +101,7 @@ function formatDate(date){
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let hour = date.getHours();
+    let hour = date.getHours() - 2;
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
 
